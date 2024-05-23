@@ -1,20 +1,20 @@
-<xml version="1.0"?>
+<?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
-<package_format="3">
-	<name>amcl_rust</name>
-	<version>0.0.1</version>
-	<description>Adaptive Monte Carlo Localization in rust safe_drive</desccription>
-	<maintainer email="legitlegit0108@gmail.com">Legit0108</maintainer>
-	<license>Apache License 2.0</license>
+<package format="3">
+  <name>amcl_rust</name>
+  <version>0.0.1</version>
+  <description>Adaptive Monte Carlo Localization in rust</description>
+  <maintainer email="legitlegit0108@gmail.com">Legit0108</maintainer>
+  <license>Apache License 2.0</license>
 
-	<depend>std_msgs</depend>
-	<depend>nav2_msgs</depend>
-	<depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
 
-	<test_depend>ament_lint_auto</test_depend>
-	<test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
-  	<export>
-    		<build_type>ament_cargo</build_type>
-  	</export>
+  <export>
+    <build_type>ament_cargo</build_type>
+  </export>
 </package>
