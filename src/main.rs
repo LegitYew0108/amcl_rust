@@ -1,3 +1,5 @@
+mod particle;
+
 use safe_drive::{
     context::Context, error::DynError, logger::Logger, pr_info
 };
