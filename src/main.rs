@@ -8,28 +8,30 @@ fn main() -> Result<(), DynError> {
     let ctx = Context::new()?;
 
     // Create a node.
-    let node = ctx.create_node("my_talker", None, Default::default())?;
+    let node = ctx.create_node("amcl", None, Default::default())?;
+    
+    //create a subscriber
+    let scan_subscriber = node.create_subscriber::<sensor_msgs::msg::LaserScan>("scan", None)?;
+    let tf_subscriber = node.create_subscriber::<geometry_msgs::msg::TransformStamped>("tf",None)?;
+    let init_subscriber = node.create_subscriber::<geometry_msgs::msg::PoseWithCovarianceStamped>("initialpose",None)?;
+    let map_subscriber = node.create_subscriber::<nav_msgs::msg::OccupancyGrid>("map", None)?;
 
     // Create a publisher.
-    let publisher = node.create_publisher::<std_msgs::msg::String>("my_topic", None)?;
+    let particle_publisher = node.create_publisher::<geometry_msgs::msg::PoseArray>("particle", None)?;
+    let pose_publisher = node.create_publisher::<geometry_msgs::msg::PoseWithCovarianceStamped>("amcl_pose",None)?;
+    let tf_publisher = node.create_publisher::<geometry_msgs::msg::TransformStamped>("tf",None)?;
 
     // Create a logger.
-    let logger = Logger::new("my_talker");
+    let logger = Logger::new("amcl");
 
-    let mut cnt = 0; // Counter.
-    let mut msg = std_msgs::msg::String::new().unwrap();
+    let mut particles = geometry_msgs::msg::PoseArray::new().unwrap();
+    particles.poses = geometry_msgs::msg::PoseSeq::<0>::new(1000).unwrap();
     loop {
-        // Create a message to be sent.
-        let data = format!("Hello, World!: cnt = {cnt}");
-        msg.data.assign(&data);
-
-        pr_info!(logger, "send: {}", msg.data); // Print log.
-
+        pr_info!(logger,"ParticleData: {:?}",particles.poses);
+        
         // Send a message.
-        publisher.send(&msg)?;
+        particle_publisher.send(&particles)?;
 
-        // Sleep 1s.
-        cnt += 1;
         std::thread::sleep(Duration::from_secs(1));
     }
 }
